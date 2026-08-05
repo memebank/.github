@@ -29,7 +29,7 @@
     "contains_non_public_inventory": true,
     "digest": "sha256:a59197571fdce51b16c64be9b468fc667715d200d5bebb48a55e26600f66d966",
     "path": "owners/memebank.json",
-    "repository": "ORESoftware/project-registry"
+    "repository": "approved-private-registry"
   },
   "relationships": [],
   "repositories": [

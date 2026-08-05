@@ -31,7 +31,7 @@ For every desktop-facing feature:
 
 - GitHub Project: [`memebank-project` — Project 1](https://github.com/orgs/memebank/projects/1)
 - Linear project: `memebank`
-- Central registry: [`ORESoftware/project-registry`](https://github.com/ORESoftware/project-registry/blob/main/registry/desktop-applications.json)
+- Central registry: [`approved-private-registry`](private-registry://canonical/registry/desktop-applications.json)
 - Portfolio rollout: [`DEN-2469`](https://linear.app/denman/issue/DEN-2469/roll-out-paired-rust-flutter-desktop-repositories-across-the-portfolio)
 
 Repository creation, naming resolution, renames, transfers, archival, or platform-status changes must update this document, the central registry, the Linear project, and both companion repositories in the same delivery.
