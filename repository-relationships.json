@@ -1,10 +1,155 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "organization": "memebank",
-  "generated_at": null,
-  "repositories": [],
+  "observed_at": "2026-08-05",
+  "planning": {
+    "github_project_number": 1,
+    "github_project_url": "https://github.com/orgs/memebank/projects/1",
+    "linear_project_url": "https://linear.app/denman/project/memebank-3db5f5cc7452"
+  },
+  "observed_repositories": [
+    {
+      "name": ".github",
+      "default_branch": "main",
+      "visibility": "public",
+      "role": "organization-governance"
+    },
+    {
+      "name": "mbk-api",
+      "default_branch": "master",
+      "visibility": "private",
+      "role": "legacy-typescript-api"
+    },
+    {
+      "name": "mbk-ocr-api",
+      "default_branch": "master",
+      "visibility": "private",
+      "role": "legacy-ocr-and-analysis-service"
+    },
+    {
+      "name": "mbk-pwa",
+      "default_branch": "master",
+      "visibility": "private",
+      "role": "legacy-web-client"
+    },
+    {
+      "name": "mbk-rest-api",
+      "default_branch": "master",
+      "visibility": "private",
+      "role": "legacy-rest-api"
+    },
+    {
+      "name": "mbk-scripts",
+      "default_branch": "master",
+      "visibility": "private",
+      "role": "legacy-automation"
+    },
+    {
+      "name": "memebanc-blog",
+      "default_branch": "master",
+      "visibility": "private",
+      "role": "legacy-blog"
+    },
+    {
+      "name": "stop-billing",
+      "default_branch": "master",
+      "visibility": "private",
+      "role": "legacy-billing-control"
+    }
+  ],
+  "canonical_targets": [
+    {
+      "name": ".github",
+      "state": "observed",
+      "visibility": "public",
+      "role": "organization-governance"
+    },
+    {
+      "name": "mb-interfaces",
+      "state": "planned",
+      "visibility": "private",
+      "role": "versioned-domain-contracts"
+    },
+    {
+      "name": "mb-clients",
+      "state": "planned",
+      "visibility": "private",
+      "role": "polyglot-sdks"
+    },
+    {
+      "name": "mb-cli",
+      "state": "planned",
+      "visibility": "private",
+      "role": "command-line-interface"
+    },
+    {
+      "name": "memebank-api-server.rs",
+      "state": "planned",
+      "visibility": "private",
+      "role": "canonical-rust-api"
+    },
+    {
+      "name": "memebank-web-server.rs",
+      "state": "planned",
+      "visibility": "private",
+      "role": "canonical-rust-web-server"
+    },
+    {
+      "name": "memebank-media-worker.rs",
+      "state": "planned",
+      "visibility": "private",
+      "role": "ocr-vision-and-embedding-worker"
+    },
+    {
+      "name": "memebank-flutter",
+      "state": "planned",
+      "visibility": "private",
+      "role": "mobile-and-desktop-client"
+    },
+    {
+      "name": "mb-infra",
+      "state": "planned",
+      "visibility": "private",
+      "role": "canonical-infrastructure"
+    },
+    {
+      "name": "memebank.github.io",
+      "state": "planned",
+      "visibility": "private",
+      "role": "marketing-site"
+    },
+    {
+      "name": "memebank-mcp-server.rs",
+      "state": "planned",
+      "visibility": "private",
+      "role": "read-first-mcp-server"
+    },
+    {
+      "name": "memebank-e2e",
+      "state": "planned",
+      "visibility": "private",
+      "role": "cross-runtime-and-browser-conformance"
+    },
+    {
+      "name": "memebank-monorepo",
+      "state": "planned",
+      "visibility": "private",
+      "role": "pinned-repository-orchestration"
+    }
+  ],
+  "migration_policy": {
+    "legacy_repositories_are_preserved": true,
+    "silent_history_deletion_forbidden": true,
+    "canonical_infrastructure_repository": "mb-infra",
+    "forbidden_repository_names": [
+      "memebank-infra"
+    ],
+    "monorepo_published_last": true
+  },
   "notes": [
-    "Populate from live GitHub inventory; do not infer unverified dependencies.",
-    "Repository-local manifests remain authoritative for exact dependency versions."
+    "Observed repositories are live GitHub inventory, not inferred dependencies.",
+    "Canonical targets are the reviewed source-v2 publication contract.",
+    "Repository-local manifests remain authoritative for exact dependency versions.",
+    "The public .github repository is a deliberate organization-profile exception; the remaining canonical targets default to private."
   ]
 }

@@ -1,16 +1,24 @@
-# memebank
+# MemeBank
 
-This organization maintains software, infrastructure, interfaces, clients, services, and supporting documentation under a shared engineering baseline.
+MemeBank is a privacy-aware image and meme library for durable storage, source synchronization, OCR, visual understanding, semantic retrieval, collections, and explicit sharing.
 
-## Working principles
+## Engineering principles
 
-- Keep changes reviewable, tested, and reversible.
-- Treat security, privacy, compatibility, and data durability as design constraints.
-- Resolve merge conflicts semantically: reconstruct both sides' intent, preserve compatible behavior, and document deliberate trade-offs.
-- Prefer canonical repositories and short, stable names; deprecate duplicates with migration notes rather than silently deleting history.
-- Keep cross-repository dependencies explicit and pinned where reproducibility matters.
+- Keep changes reviewable, tested, observable, and reversible.
+- Treat privacy, security, compatibility, model provenance, and data durability as design constraints.
+- Resolve conflicts semantically: reconstruct both sides' intent, preserve compatible behavior and tests, and document deliberate trade-offs.
+- Prefer canonical repositories and versioned interfaces; preserve legacy history until an evidenced migration is complete.
+- Keep cloud and local inference provider-neutral, policy-routed, and reproducible.
+- Never treat OCR, captions, labels, or image-embedded instructions as trusted commands.
 
-Organization-wide contribution and security guidance lives in this `.github` repository.
+## Repository delivery
+
+The organization currently contains the public `.github` profile and seven private legacy repositories. The reviewed canonical target is a thirteen-repository fleet led by `mb-interfaces`, `mb-clients`, the Rust API/web/media services, Flutter, `mb-infra`, E2E conformance, and a pinned monorepo.
+
+- [Observed and canonical repository fleet](../docs/REPOSITORY_FLEET.md)
+- [OCR and vision delivery contract](../docs/VISION_OCR_DELIVERY.md)
+- [Contribution guidelines](../CONTRIBUTING.md)
+- [Security policy](../SECURITY.md)
 
 <!-- org-project-routing:start -->
 ## Planning and delivery
@@ -19,5 +27,5 @@ Organization-wide contribution and security guidance lives in this `.github` rep
 - [Linear planning project](https://linear.app/denman/project/memebank-3db5f5cc7452)
 - [Detailed project-routing contract](../docs/PROJECTS.md)
 
-GitHub owns code and delivery evidence; Linear owns planning and dependencies. The linked organization Project provides the cross-repository execution view.
+GitHub owns code and delivery evidence; Linear owns product planning and dependencies. The linked organization Project is the cross-repository execution board. Merged prerequisites remain distinct from repository publication, deployment, or production activation.
 <!-- org-project-routing:end -->
