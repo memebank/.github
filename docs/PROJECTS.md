@@ -1,5 +1,3 @@
-
-
 <!-- org-project-routing:start -->
 # Project routing
 
@@ -16,3 +14,16 @@ GitHub is authoritative for repositories, commits, pull requests, reviews, CI ch
 
 Documentation branches must be reviewed through pull requests and merged after checks pass. Concurrent edits are reconciled semantically against the latest default branch: this managed routing block is regenerated while all unrelated prose outside the block is preserved. Do not resolve conflicts by blindly choosing one side.
 <!-- org-project-routing:end -->
+
+## Active delivery workstream
+
+### Media encryption and asynchronous analysis
+
+- **Organization delivery plan:** [MEDIA_SECURITY_DELIVERY.md](./MEDIA_SECURITY_DELIVERY.md)
+- **Primary Linear issue:** [DEN-1535](https://linear.app/denman/issue/DEN-1535/implement-no-plaintext-disk-analysis-streams-and-client-vault-fail)
+- **Current implementation PR:** [mbk-ocr-api#21](https://github.com/memebank/mbk-ocr-api/pull/21)
+- **Durable GitHub Project routing card:** [.github#2](https://github.com/memebank/.github/issues/2)
+
+The workstream keeps server-managed SSE-KMS media as the analyzable default, preserves optional opaque client-vault behavior, and requires authorization-before-storage, immutable object versions, bounded in-memory plaintext streams, fenced workers, atomic result publication, exact-version cleanup, provider conformance, and filesystem proof.
+
+Update this section whenever the active implementation PR, primary Linear issue, or milestone changes.
