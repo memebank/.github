@@ -13,6 +13,8 @@ GitHub is authoritative for repositories, commits, pull requests, reviews, CI ch
 ## Change and merge policy
 
 Documentation branches must be reviewed through pull requests and merged after checks pass. Concurrent edits are reconciled semantically against the latest default branch: this managed routing block is regenerated while all unrelated prose outside the block is preserved. Do not resolve conflicts by blindly choosing one side.
+
+A semantic merge reconstructs the compatible intent of both sides; never resolve a substantive conflict by selecting all of `ours` or all of `theirs`.
 <!-- org-project-routing:end -->
 
 ## Active delivery workstream
