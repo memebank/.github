@@ -1,0 +1,56 @@
+{
+  "$schema": "./repository-relationships.schema.json",
+  "audience": "public",
+  "generated": {
+    "complete_for_visibility": "public",
+    "generated_at": "2026-08-05T21:07:32Z",
+    "generator_version": "2026-08-04.1",
+    "inventory_digest": "sha256:9efdde6a24bc964f0f7eab665cc9b97b3e8e995b7cfff33dba87ad4171836e6c",
+    "managed_by": "ore-repository-relationship-rollout",
+    "omitted_repository_count": 8,
+    "private_repositories_omitted": true,
+    "source": "GitHub GraphQL repository inventory plus reviewed manual declarations"
+  },
+  "owner": {
+    "account_type": "organization",
+    "dotgithub_repository": "memebank/.github",
+    "github_id": "75922132",
+    "linear_project": {
+      "id": "aa7e93aa-0921-4e60-8ec3-a0e4da1e9572",
+      "name": "memebank",
+      "team_id": "eb8ab169-5afe-4b6f-9cab-3f2aa3e887dc",
+      "url": "https://linear.app/denman/project/memebank-3db5f5cc7452",
+      "workspace": "denman"
+    },
+    "login": "memebank",
+    "mapping_id": "context:memebank"
+  },
+  "private_registry": {
+    "contains_non_public_inventory": true,
+    "digest": "sha256:a59197571fdce51b16c64be9b468fc667715d200d5bebb48a55e26600f66d966",
+    "path": "owners/memebank.json",
+    "repository": "ORESoftware/project-registry"
+  },
+  "relationships": [],
+  "repositories": [
+    {
+      "archived": false,
+      "default_branch": "main",
+      "fork": false,
+      "full_name": "memebank/.github",
+      "github_id": "1324048444",
+      "name": ".github",
+      "owner": "memebank",
+      "roles": [
+        "community-health",
+        "governance",
+        "relationship-registry"
+      ],
+      "source": "github-graphql-api",
+      "url": "https://github.com/memebank/.github",
+      "visibility": "public"
+    }
+  ],
+  "schema_version": 1,
+  "unresolved_hints": []
+}
