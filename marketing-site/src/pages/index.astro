@@ -1,0 +1,67 @@
+---
+const features=[
+ ["Image-first catalog","Import screenshots, memes, reactions, and reusable visual assets into a durable, deduplicated library."],
+ ["Search by meaning","Combine OCR text, captions, tags, full-text ranking, and embeddings so recall does not depend on filenames."],
+ ["Portable storage","Keep metadata coherent while originals can live in S3, R2, Google Drive, iCloud, OneDrive, or another user-owned adapter."],
+ ["Async enrichment","Queue OCR and vision work behind explicit job state, reviewable outputs, and privacy-aware decryption boundaries."],
+ ["Cross-platform capture","Flutter mobile and desktop applications make save, preview, copy, share, and offline browsing native interactions."],
+ ["ClipTown interop","Clipboard workflows integrate through versioned APIs and SDKs rather than coupling databases or encryption internals."],
+];
+const samples=[
+ {id:"ts",label:"TypeScript API preview",file:"import.ts",code:`const created = await fetch(baseUrl + "/v1/assets", {
+  method: "POST",
+  headers: {
+    authorization: "Bearer " + accessToken,
+    "content-type": "application/json",
+  },
+  body: JSON.stringify({
+    source: "clipboard",
+    objectRef: uploadedObjectRef,
+    enrich: ["ocr", "caption", "tags", "embedding"],
+  }),
+}).then((response) => response.json());
+
+console.log(created.assetId, created.enrichmentState);`,note:"Illustrative API shape from the planned catalog/enrichment boundary; no public TypeScript SDK is released yet."},
+ {id:"python",label:"Python API preview",file:"search.py",code:`response = requests.post(
+    f"{base_url}/v1/search",
+    headers={"authorization": f"Bearer {access_token}"},
+    json={
+        "query": "that surprised pikachu reaction",
+        "modes": ["full_text", "vector", "ocr"],
+        "limit": 24,
+    },
+    timeout=20,
+)
+response.raise_for_status()
+for hit in response.json()["results"]:
+    print(hit["assetId"], hit["score"])
+`,note:"Search preview combines lexical and semantic recall while returning stable asset references."},
+ {id:"curl",label:"curl upload flow",file:"upload.sh",code:`# 1. Request a bounded upload target
+curl -X POST "$BASE_URL/v1/uploads" \
+  -H "authorization: Bearer $ACCESS_TOKEN" \
+  -H "content-type: application/json" \
+  --data '{"contentType":"image/png","size":482190}'
+
+# 2. Upload bytes directly to the returned object target
+# 3. Create the catalog asset from the opaque object reference`,note:"The intended flow keeps large bytes off the catalog API and creates metadata only after a bounded upload."},
+ {id:"job",label:"Enrichment job JSON",file:"enrichment.json",code:`{
+  "assetId": "asset_01J...",
+  "requested": ["ocr", "caption", "tags", "embedding"],
+  "policy": {
+    "serverSideDecryptApproved": true,
+    "retainDerivedText": true,
+    "retainPlaintextOriginal": false
+  },
+  "state": "queued"
+}`,note:"A reviewable job document makes asynchronous analysis and plaintext-retention choices explicit."},
+];
+---
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="A cross-platform, searchable library for memes and reusable visual assets."><meta name="theme-color" content="#170b2d"><title>MemeBank — remember every image</title></head><body>
+<header><a class="brand" href="/"><b>MB</b><span>MemeBank</span></a><nav><a href="#platform">Library</a><a href="#clients">API</a><a href="https://github.com/memebank">GitHub ↗</a></nav></header><main>
+<section class="hero"><div><p class="eyebrow">Image memory · Cross-platform</p><h1>Save the image. <em>Find the meaning later.</em></h1><p class="lede">MemeBank turns scattered screenshots and visual references into a portable catalog enriched by OCR, captions, tags, and embeddings—ready to search, copy, share, and sync across devices.</p><div class="actions"><a class="primary" href="https://github.com/memebank">Explore the project ↗</a><a href="#clients">See the API preview</a></div><ul><li>OCR + semantic search</li><li>Portable object storage</li><li>Flutter mobile + desktop</li></ul></div><div class="visual"><span class="grid"></span><div class="card one">WHEN THE BUILD<br><b>PASSES LOCALLY</b></div><div class="card two">SEARCH<br><b>“surprised reaction”</b></div><div class="card three">OCR · TAGS · VECTOR<br><b>indexed</b></div><div class="core"><small>MEMORY BANK</small><strong>24,810 assets</strong><i>meaning over filenames</i></div></div></section>
+<section class="metrics"><div><b>5+</b><span>storage adapters planned</span></div><div><b>4</b><span>enrichment modes</span></div><div><b>2</b><span>search families</span></div><div><b>1</b><span>portable catalog</span></div></section>
+<section id="platform" class="platform"><p class="eyebrow">A visual memory layer</p><h2>Your image library should understand more than folders.</h2><p class="intro">Catalog metadata, original bytes, derived text, embeddings, encryption policy, and clipboard interoperability remain explicit layers. That separation makes enrichment useful without making one storage provider or one application the owner of everything.</p><div class="features">{features.map(([t,b],i)=><article><small>{String(i+1).padStart(2,"0")}</small><h3>{t}</h3><p>{b}</p></article>)}</div></section>
+<section id="clients" class="sdk" data-sdk><div><p class="eyebrow">API preview</p><h2>Design the client surface around stable assets and explicit jobs.</h2><p class="intro">A public `memebank-clients` repository does not exist yet. These examples document the intended HTTP boundaries and are labeled as previews rather than released SDKs.</p><a class="source" href="https://github.com/memebank">Follow the implementation ↗</a></div><div class="workbench"><div class="toolbar"><label><span>Example</span><select aria-label="Select client language" data-language>{samples.map((s,i)=><option value={s.id} selected={i===0}>{s.label}</option>)}</select></label><code data-file>{samples[0]?.file ?? "import.ts"}</code><button data-copy type="button">Copy</button></div>{samples.map((s,i)=><article data-sample={s.id} data-name={s.file} hidden={i!==0}><pre tabindex="0"><code>{s.code}</code></pre><p>{s.note}</p></article>)}</div></section>
+<section class="closing"><p class="eyebrow">Memes are a concurrency</p><h2>Keep every visual idea ready for the moment it matters.</h2><a href="https://github.com/memebank">Open the organization ↗</a></section></main><footer><span>© 2026 MemeBank</span><a href="https://github.com/memebank">Source</a></footer>
+<script is:inline>document.querySelectorAll('[data-sdk]').forEach((r)=>{const s=r.querySelector('[data-language]'),f=r.querySelector('[data-file]'),c=r.querySelector('[data-copy]'),p=[...r.querySelectorAll('[data-sample]')];const show=(id)=>p.forEach((x)=>{const a=x.dataset.sample===id;x.hidden=!a;if(a)f.textContent=x.dataset.name||''});s?.addEventListener('change',(e)=>show(e.target.value));c?.addEventListener('click',async()=>{const a=p.find((x)=>!x.hidden),t=a?.querySelector('code')?.textContent||'';try{await navigator.clipboard.writeText(t);c.textContent='Copied'}catch{a?.querySelector('pre')?.focus();c.textContent='Select code'}setTimeout(()=>c.textContent='Copy',1200)})});</script>
+<style>:root{--accent:#db2777;--hot:#8b5cf6;--ink:#170b2d;--muted:#6b6478;--paper:#fff7fb}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:linear-gradient(180deg,#fdf2f8,var(--paper) 36rem);color:var(--ink);font:16px/1.6 Inter,system-ui,sans-serif}a{color:inherit}header,main,footer{width:min(1180px,calc(100% - 2rem));margin:auto}header{display:flex;justify-content:space-between;align-items:center;padding:1.1rem 0}.brand{display:flex;gap:.6rem;align-items:center;font-weight:900;text-decoration:none}.brand b{display:grid;width:2.35rem;aspect-ratio:1;place-items:center;border-radius:.75rem;background:var(--ink);color:white;font-size:.7rem}nav{display:flex;gap:1.2rem;font-size:.85rem;font-weight:800}nav a{text-decoration:none}.hero{display:grid;grid-template-columns:1.04fr .96fr;gap:clamp(2rem,7vw,7rem);align-items:center;min-height:720px;padding:5rem 0}.eyebrow{margin:0;color:var(--accent);font:800 .7rem/1 ui-monospace,monospace;letter-spacing:.17em;text-transform:uppercase}h1{max-width:12ch;margin:.8rem 0 1.25rem;font-size:clamp(3.5rem,8vw,7rem);line-height:.86;letter-spacing:-.075em}h1 em{background:linear-gradient(120deg,var(--accent),var(--hot));background-clip:text;color:transparent;font-style:normal}.lede,.intro{max-width:47rem;color:var(--muted);font-size:1.08rem}.actions{display:flex;gap:.7rem;flex-wrap:wrap;margin:2rem 0}.actions a,.closing a{padding:.75rem 1rem;border:1px solid #0f172a1b;border-radius:.75rem;font-weight:850;text-decoration:none}.primary{background:var(--ink);color:white}.hero ul{display:flex;gap:1rem;flex-wrap:wrap;margin:0;padding:0;color:var(--muted);font-size:.8rem;list-style:none}.hero li:before{content:'◆';margin-right:.4rem;color:var(--accent)}.visual{position:relative;min-height:32rem;overflow:hidden;border-radius:2rem;background:radial-gradient(circle at 50% 50%,#db27774b,transparent 39%),linear-gradient(145deg,#180b29,#2e1648);box-shadow:0 35px 90px #4a133d45}.grid{position:absolute;inset:0;background-image:linear-gradient(#ffffff0c 1px,transparent 1px),linear-gradient(90deg,#ffffff0c 1px,transparent 1px);background-size:2.4rem 2.4rem}.card,.core{position:absolute;border:1px solid #ffffff25;border-radius:1rem;background:#1f1234df;color:#f9a8d4;box-shadow:0 18px 40px #0005;backdrop-filter:blur(12px)}.card{padding:1rem;font:750 .68rem/1.45 ui-monospace,monospace;transform:rotate(-4deg)}.card b,.core strong{color:white}.one{top:10%;left:7%}.two{top:14%;right:6%;transform:rotate(4deg)}.three{bottom:9%;right:9%;transform:rotate(-2deg)}.core{top:53%;left:43%;display:grid;width:14rem;padding:1.25rem;transform:translate(-50%,-50%)}.core small{font:800 .64rem/1 ui-monospace,monospace;letter-spacing:.1em}.core strong{font-size:1.35rem}.core i{color:#c4b5fd;font-style:normal;font-size:.78rem}.metrics{display:grid;grid-template-columns:repeat(4,1fr);overflow:hidden;border:1px solid #35114818;border-radius:1.15rem;background:#ffffffc9}.metrics div{display:grid;padding:1.2rem}.metrics div+div{border-left:1px solid #35114818}.metrics b{font-size:1.3rem}.metrics span{color:var(--muted);font-size:.76rem}.platform{padding:8rem 0}.platform h2,.sdk h2,.closing h2{max-width:15ch;margin:.55rem 0 1rem;font-size:clamp(2.6rem,6vw,5rem);line-height:.94;letter-spacing:-.06em}.features{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:3rem}.features article{min-height:14rem;padding:1.3rem;border:1px solid #35114814;border-radius:1.1rem;background:#ffffffc5}.features small{color:var(--accent);font:800 .68rem/1 ui-monospace,monospace}.features h3{margin:2.1rem 0 .55rem}.features p{color:var(--muted)}.sdk{display:grid;grid-template-columns:minmax(0,.78fr) minmax(31rem,1.22fr);gap:clamp(2rem,7vw,6rem);align-items:center;margin:3rem 0 9rem}.source{display:inline-block;margin-top:1rem;color:var(--accent);font-weight:850;text-decoration:none}.workbench{overflow:hidden;border:1px solid #ffffff24;border-radius:1.25rem;background:#160b29;color:#fce7f3;box-shadow:0 32px 90px #35114840}.toolbar{display:flex;gap:.8rem;align-items:end;padding:.85rem 1rem;border-bottom:1px solid #ffffff18;background:#21113a}.toolbar label{display:grid;gap:.25rem}.toolbar label span{color:#c4b5fd;font:700 .6rem/1 ui-monospace,monospace;letter-spacing:.13em;text-transform:uppercase}.toolbar select,.toolbar button{border:1px solid #ffffff28;border-radius:.58rem;background:#2e1648;color:white;padding:.5rem .65rem;font:inherit}.toolbar button{margin-left:auto;cursor:pointer}.toolbar>code{align-self:center;color:#c4b5fd;font-size:.75rem}.workbench pre{overflow:auto;min-height:22rem;max-height:30rem;margin:0;padding:1.2rem;font:500 .82rem/1.7 ui-monospace,monospace;white-space:pre}.workbench article>p{margin:0;padding:.8rem 1.2rem 1rem;border-top:1px solid #ffffff15;color:#c4b5fd;font-size:.78rem}.closing{margin-bottom:2rem;padding:clamp(2rem,7vw,6rem);border-radius:1.8rem;background:linear-gradient(125deg,var(--accent),var(--hot));color:white}.closing .eyebrow{color:#ffffffc7}.closing a{display:inline-block;margin-top:1rem;background:white;color:var(--ink)}footer{display:flex;gap:1rem;padding:1.5rem 0 3rem;color:var(--muted);font-size:.78rem}footer span{margin-right:auto}footer a{text-decoration:none}@media(max-width:900px){.hero,.sdk{grid-template-columns:1fr}.features{grid-template-columns:1fr 1fr}}@media(max-width:650px){nav a:not(:last-child){display:none}.visual{min-height:26rem}.metrics{grid-template-columns:1fr 1fr}.features{grid-template-columns:1fr}.toolbar{align-items:stretch;flex-wrap:wrap}.toolbar>code{width:100%;order:3}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}</style></body></html>
