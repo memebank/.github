@@ -9,11 +9,20 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   validate:
     runs-on: ubuntu-24.04
+    timeout-minutes: 10
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - name: Check out exact source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
       - name: Validate organization baseline
         shell: bash
         run: |
@@ -27,12 +36,42 @@ jobs:
             CODE_OF_CONDUCT.md
             GOVERNANCE.md
             AGENTS.md
+            project-context.yaml
             repository-relationships.json
             organization-policy.json
+            docs/PROJECTS.md
+            docs/REPOSITORY_FLEET.md
+            docs/VISION_OCR_DELIVERY.md
+            scripts/validate_org_delivery.py
           )
           for file in "${required[@]}"; do
-            test -s "$file" || { echo "::error file=$file::required baseline file is missing or empty"; exit 1; }
+            test -s "$file" || {
+              echo "::error file=$file::required baseline file is missing or empty"
+              exit 1
+            }
           done
           python3 -m json.tool organization-policy.json >/dev/null
           python3 -m json.tool repository-relationships.json >/dev/null
+          python3 -m py_compile scripts/validate_org_delivery.py
+          python3 scripts/validate_org_delivery.py
           ! git grep -nE '^(<<<<<<<|=======|>>>>>>>)' -- . ':!*.lock'
+
+      - name: Reject credential-shaped content
+        shell: bash
+        run: |
+          set -euo pipefail
+          managed=(
+            project-context.yaml
+            repository-relationships.json
+            docs/PROJECTS.md
+            docs/REPOSITORY_FLEET.md
+            docs/VISION_OCR_DELIVERY.md
+            profile/README.md
+            scripts/validate_org_delivery.py
+            .github/workflows/baseline-policy.yml
+          )
+          pattern='gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|BEGIN [A-Z ]*PRIVATE KEY'
+          if grep -nE "$pattern" "${managed[@]}"; then
+            echo 'Credential-shaped content is forbidden.' >&2
+            exit 1
+          fi
