@@ -1,11 +1,24 @@
-schema_version: 1
+schema_version: 2
 organization: memebank
 canonical_profile_repository: memebank/.github
+observed_at: 2026-08-05
+planning:
+  github_project:
+    number: 1
+    url: https://github.com/orgs/memebank/projects/1
+  linear_project:
+    key: memebank
+    url: https://linear.app/denman/project/memebank-3db5f5cc7452
 policy:
   semantic_conflict_resolution: required
   preserve_history_during_consolidation: true
   exact_head_validation: true
   secrets_in_repository: forbidden
+  default_repository_visibility: private
+  public_profile_repository_exception: memebank/.github
+  pull_requests_required: true
+  production_dependencies_require_evidence: true
 integrations:
-  linear: verify_per_project
+  linear: required
+  github_project: required
   slack: verify_per_project
