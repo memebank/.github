@@ -50,9 +50,11 @@ Do not resolve substantive conflicts by blindly choosing all of `ours`, all of `
 
 - **Organization delivery plan:** [MEDIA_SECURITY_DELIVERY.md](./MEDIA_SECURITY_DELIVERY.md)
 - **Primary Linear issue:** [DEN-1535](https://linear.app/denman/issue/DEN-1535/implement-no-plaintext-disk-analysis-streams-and-client-vault-fail)
-- **Current implementation PR:** [mbk-ocr-api#21](https://github.com/memebank/mbk-ocr-api/pull/21)
+- **Latest merged implementation:** [mbk-ocr-api#21](https://github.com/memebank/mbk-ocr-api/pull/21) — `a0d8a2d8ef023f92b60565db7581ba33e572b133`
+- **Current execution issue:** [mbk-ocr-api#23](https://github.com/memebank/mbk-ocr-api/issues/23) — shared-auth workload identity and durable authorization
+- **Verification issue:** [mbk-ocr-api#24](https://github.com/memebank/mbk-ocr-api/issues/24) — provider fault injection and no-persistent-plaintext proof
 - **Durable GitHub Project routing card:** [.github#2](https://github.com/memebank/.github/issues/2)
 
 The workstream keeps server-managed SSE-KMS media as the analyzable default, preserves optional opaque client-vault behavior, and requires authorization-before-storage, immutable object versions, bounded in-memory plaintext streams, fenced workers, atomic result publication, exact-version cleanup, provider conformance, and filesystem proof.
 
-Update this section whenever the active implementation PR, primary Linear issue, or milestone changes.
+Update this section whenever the active GitHub issue or PR, primary Linear issue, milestone, or activation boundary changes.
