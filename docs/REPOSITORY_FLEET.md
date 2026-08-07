@@ -5,7 +5,7 @@
 **GitHub Project:** [memebank-project](https://github.com/orgs/memebank/projects/1)  
 **Linear:** [MemeBank](https://linear.app/denman/project/memebank-3db5f5cc7452)
 
-Repository recovery and first publication are complete. The authoritative completion record is [`.github#26`](https://github.com/memebank/.github/issues/26). This document records the current canonical fleet and distinguishes it from legacy repositories and unused naming placeholders.
+Repository recovery and first publication are complete. The authoritative canonical completion record is [`.github#26`](https://github.com/memebank/.github/issues/26). This document records the current canonical fleet and distinguishes it from legacy repositories, unused naming placeholders, and the later user-requested unrelated-history `-2` archives.
 
 ## Canonical fleet
 
@@ -28,30 +28,36 @@ Repository recovery and first publication are complete. The authoritative comple
 
 The final source-v2 publication run reported **13 repositories current, zero failures, and 28 publisher/carrier tests passed**. The desktop extension adds the fourteenth canonical repository, `mbk-desktop.rs`.
 
-## Conflict and ancestry policy
+## Canonical collision policy and later archive publication
 
-No `-2` repository was required for the recovered fleet. Every occupied canonical target was either created by the recovery publisher or contained the same recovered source lineage with newer reviewed metadata or follow-up work. Recovered blobs were not force-pushed over unrelated history.
+The canonical recovery itself did not require a `-2` name: every canonical destination was empty, created by the recovery publisher, or demonstrably contained the same product source with newer reviewed additions. No nonempty canonical repository was force-pushed.
 
-For future recovery work:
+After canonical completion, the user explicitly requested that the separately created unrelated-history collision repositories also receive complete source publication. Those repositories now exist as **archives**, not alternative canonical development targets. Their exact source identities, pull requests, and merge commits are recorded in [`COLLISION_ARCHIVES_2026-08-07.md`](COLLISION_ARCHIVES_2026-08-07.md).
+
+For all future recovery work:
 
 - use the canonical name when the destination is empty, missing, or demonstrably shares the recovered lineage;
 - preserve and semantically reconcile newer work when both histories represent the same product;
-- when an occupied name is an unrelated project with no shared lineage, create `<name>-2` and record the mapping in this document, Linear, and the monorepo;
-- never resolve a conflict by blindly taking all of `ours` or all of `theirs`;
+- when an occupied name is an unrelated project with no shared lineage, create `<name>-2`, publish the complete source rather than a metadata-only placeholder, and record the mapping in this document, Linear, and the recovery ledger;
+- keep `-2` repositories outside canonical monorepo pins unless a later explicit migration changes authority;
+- never resolve a conflict by blindly taking all of `ours` or all of `theirs`; and
 - never force-push a nonempty canonical remote merely to reproduce an archived commit SHA.
 
-## Noncanonical placeholders and legacy repositories
+## Noncanonical placeholders, archives, and legacy repositories
 
-The empty repositories `mbk-cli`, `mbk-interfaces`, `mbk-clients`, and `mbk-lib` are not substitutes for the canonical `mb-cli`, `mb-interfaces`, and `mb-clients` repositories. They remain unused until a separate reviewed naming or archival decision. Do not duplicate the source fleet into them.
+The repositories `mbk-cli`, `mbk-interfaces`, `mbk-clients`, and `mbk-lib` are not substitutes for the canonical `mb-cli`, `mb-interfaces`, and `mb-clients` repositories. They remain separate until a reviewed naming, migration, or archival decision.
+
+The published `-2` repositories preserve unrelated/recovery histories and complete source snapshots. They are not canonical package, deployment, or feature-development targets. Normal product work remains in the canonical fleet above.
 
 Legacy repositories such as `mbk-api`, `mbk-rest-api`, `mbk-ocr-api`, `mbk-pwa`, `mbk-scripts`, `memebanc-blog`, and `stop-billing` retain their history while behavior is migrated deliberately. Existing security and compatibility fixes may continue there until the corresponding cutover is complete.
 
 ## Publication invariants
 
 - Contract and leaf repositories are published before orchestration repositories.
-- `memebank-monorepo` is published last and pins reachable child commits.
+- `memebank-monorepo` is published last and pins reachable canonical child commits.
 - `.github` is the public organization-governance exception; product repositories default to private unless a reviewed visibility decision says otherwise.
-- Repository remotes and publication logs contain no PATs, Linear tokens, signing keys, or other credentials.
+- Repository remotes, publication logs, pull requests, and ledgers contain no PATs, Linear tokens, signing keys, or other credentials.
+- Archive publication preserves provenance but does not imply production readiness, package signing, supported-platform qualification, or deployment activation.
 - CI, governance, packaging, signing, production activation, migrations, provider qualification, accessibility, performance, observability, and failure drills remain independently tracked product-delivery work.
 
-See [`RECOVERY_2026-08-07.md`](RECOVERY_2026-08-07.md) for source-carrier provenance and the final recovery verification.
+See [`RECOVERY_2026-08-07.md`](RECOVERY_2026-08-07.md) for source-carrier provenance and [`COLLISION_ARCHIVES_2026-08-07.md`](COLLISION_ARCHIVES_2026-08-07.md) for the post-completion archive publication.
