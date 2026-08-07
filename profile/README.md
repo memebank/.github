@@ -27,7 +27,7 @@ The organization currently contains the public `.github` profile and seven priva
 - [Linear planning project](https://linear.app/denman/project/memebank-3db5f5cc7452)
 - [Detailed project-routing contract](../docs/PROJECTS.md)
 
-GitHub owns code and delivery evidence; Linear owns planning and dependencies. The linked organization Project provides the cross-repository execution view.
+GitHub owns code and delivery evidence; Linear owns product planning and dependencies. The linked organization Project is the cross-repository execution board. Merged prerequisites remain distinct from repository publication, deployment, or production activation.
 <!-- org-project-routing:end -->
 
 <!-- ore-org-baseline:begin -->
