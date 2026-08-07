@@ -59,11 +59,15 @@ a0d8a2d8ef023f92b60565db7581ba33e572b133
 Every AWS read contains:
 12. provider-neutral exact-version reads with no `latest` fallback.
 
-## Active delivery: exact-version S3 reads
+## Latest merged delivery: exact-version S3 reads
 
-PR `memebank/mbk-ocr-api#21` implements the concrete AWS reader behind the authorization-before-storage contract.
+PR `memebank/mbk-ocr-api#21` was squash-merged as:
 
-Every AWS request contains:
+```text
+a0d8a2d8ef023f92b60565db7581ba33e572b133
+```
+
+Every AWS read contains:
 
 ```text
 Bucket
@@ -102,23 +106,28 @@ The tested head was marked ready only after all checks passed, and the merge use
 ### Issue #23 — shared-auth and workload identity
 It requires response `VersionId` to equal the queued durable version and returns content length, media type, SSE mode, KMS key identity, and Bucket Key state from the same response body. The existing stream policy then enforces byte/media/KMS limits.
 
-The PR includes mocked SDK tests, signed wire-level SDK tests, an isolated pinned Go module, a dedicated Actions workflow, and deployment/IAM guidance.
+## Merge evidence
 
-## Current evidence
+The first focused workflow run exposed an isolated harness omission: its temporary module lacked the existing identifier-policy dependency. Adding the whole PostgreSQL store then exposed duplicate helper coupling. The adapter was refactored to own a narrow S3 identifier validator, and the unnecessary database dependency was removed. The security behavior remained fail-closed.
 
-On the initial PR #21 head, all pre-existing repository workflows passed. The new focused workflow correctly exposed an isolated harness omission: its temporary module had not copied the existing opaque-identifier validator. The harness was corrected without weakening production logic, and the full head was rerun before review or merge.
+The exact merged head passed all eight workflows:
 
-The merge gate is:
+```text
+s3-versioned-read-security
+analysis-authorized-versioned-source
+analysis-transaction-store
+analysis-stream-security
+s3-result-cleanup-security
+s3-cleanup-runtime-security
+workflow-hygiene-security
+ci
+```
 
-- dedicated exact-version S3 read workflow succeeds;
-- existing authorization, transaction-store, stream, cleanup, workflow-hygiene, and repository CI remain green;
-- branch is current with the default branch;
-- PR is marked ready only after exact-head evidence is green;
-- merge uses the tested head SHA.
+The tested head was marked ready only after all checks passed, and the merge used that exact head SHA.
 
-## Next production milestones
+## Current production milestones
 
-### Shared-auth and workload identity
+### Issue #23 — shared-auth and workload identity
 
 - implement a durable service-principal authorizer;
 - compare queue/request identifiers against the canonical job record;
@@ -144,20 +153,21 @@ The merge gate is:
 - sandbox decoders and model subprocesses.
 - emit opaque security audit events without media, keys, provider messages, or credentials.
 
-### Provider conformance
+### Issue #24 — provider conformance and plaintext proof
 
 - deploy least-privilege `s3:GetObjectVersion` and `kms:Decrypt` policy;
-- add LocalStack or AWS test-account failure injection for permissions, throttling, deleted versions, delete markers, KMS denial, and cancellation;
+- add LocalStack or AWS test-account failure injection for permissions, throttling, deleted versions, delete markers, KMS denial, mid-stream disconnects, and cancellation;
+- monitor worker filesystems through success, rejection, cancellation, timeout, crash, panic, restart, and termination;
+- prove no persistent plaintext or derived-content artifact remains;
+- run evidence in GitHub Actions and the internal GHA-compatible worker path.
+
+### Additional platform work
+
 - implement an R2 or provider-equivalent immutable-generation reader;
-- prove missing versions never fall back to mutable current objects.
-
-### Canonical worker and plaintext proof
-
-- port storage, authorization, lease, heartbeat, and result-transaction contracts to Rust;
+- prove missing versions never fall back to mutable current objects;
+- port storage, authorization, lease, heartbeat, result-transaction, and cleanup contracts to Rust;
 - integrate with SeaORM/SQLx and async `AsyncRead` pipelines;
-- sandbox decoders and model subprocesses;
-- monitor worker filesystems through success, rejection, cancellation, timeout, crash, panic, and termination;
-- prove no persistent plaintext or derived-content artifact remains.
+- sandbox decoders and model subprocesses.
 
 ## Repository ownership
 
