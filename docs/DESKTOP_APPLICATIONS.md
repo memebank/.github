@@ -1,65 +1,76 @@
 # MemeBank desktop applications
 
-Verified **2026-08-06**.
+Verified **2026-08-06/07**.
 
-## Required pair
+## Published pair
 
-- Rust: [`memebank/mbk-desktop.rs`](https://github.com/memebank/mbk-desktop.rs) — **planned**, not yet verified as published.
-- Flutter: [`memebank/mbk-flutter`](https://github.com/memebank/mbk-flutter) — **planned**, not yet verified as published.
+- Rust: [`memebank/mbk-desktop.rs`](https://github.com/memebank/mbk-desktop.rs) — private, native Rust/GPUI, no WebView; reviewed `main` commit `c7e5b9010bb984b6443ae00e5a4a162fc62b4cc5`.
+- Flutter: [`memebank/mbk-flutter`](https://github.com/memebank/mbk-flutter) — private, mobile, mobile web, and desktop; reviewed `main` commit `6beb20cdb65790d4e2890a05b777cc0a9de1efa9`.
+- Coordinator: [`memebank/memebank-monorepo`](https://github.com/memebank/memebank-monorepo) — exact paired gitlinks at commit `c4510c6d026c0f3459247063fc877842c363e16f`.
 
-The `mbk-*` naming is canonical. Do not mark either implementation live until the remote, native build, packaging, performance tests, and supported-platform matrix are verified.
+The Flutter repository was renamed from `memebank/memebank-flutter` rather than copied. Repository ID `1326070645`, all Git history, and the sealed source-v2 commit were preserved. The Rust repository has ID `1326085867`.
+
+The `mbk-*` naming is canonical. Packaging, signing, distribution, performance qualification, accessibility review, and the complete supported-platform matrix remain release work; repository publication alone does not certify those items.
+
+## Verified checks
+
+### Rust/GPUI
+
+- stable `rustfmt`;
+- Clippy with warnings denied;
+- platform-neutral contract tests;
+- macOS native GPUI compile check with `gpui = "=0.2.2"`;
+- strict deep-link and ClipTown command validation;
+- canonical singular asset route plus legacy plural migration support.
+
+### Flutter
+
+- vendored `mb-interfaces` Dart package verified against approved commit `c860e0ac8281a10952d31e7274813e8bfc0af781` and fixed SHA-256 hashes;
+- `flutter pub get`, `flutter analyze`, and `flutter test` green;
+- no repository-scoped cross-private checkout dependency in CI;
+- canonical singular asset deep links emitted from clipboard metadata.
+
+### Monorepo
+
+- old `apps/memebank-flutter` gitlink removed;
+- exact `apps/mbk-flutter` and `apps/mbk-desktop.rs` gitlinks enforced by `desktop-pins.json` and `scripts/validate-workspace.sh`;
+- workspace validation green.
 
 ## Rust desktop kit: GPUI, fully native
 
 The Rust application uses **GPUI**. The prior Tauri/WebView assignment is superseded.
 
 - Embedded WebViews are prohibited.
-- Rust owns local indexing, OCR/vision queues, embeddings, metadata, storage connectors, encryption, secure storage, persistence, Cliptown handoffs, deep-link parsing, and privileged filesystem operations.
+- Rust owns local indexing, OCR/vision queues, embeddings, metadata, storage connectors, encryption, secure storage, persistence, ClipTown handoffs, deep-link parsing, and privileged filesystem operations.
 - GPUI owns native image grids, virtualized collections, thumbnails/previews, keyboard navigation, selection, drag/drop surfaces, custom rendering, windowing, and low-latency interaction.
 - Image decode, thumbnail, cache, and GPU/upload work must use bounded pipelines and explicit memory/performance budgets.
 
-This strategy prioritizes high-performance native image rendering, large media libraries, fast scrolling and selection, direct OS drag/drop/clipboard integration, and low-latency interoperability with Cliptown.
-
-The future Rust repository must contain `docs/DESKTOP_TOOLKIT.md` covering the GPUI version policy, no-WebView rule, image/rendering architecture, memory/performance budgets, filesystem and security boundaries, deep links, Cliptown interop, packaging, platform tests, and Flutter companion.
+This strategy prioritizes high-performance native image rendering, large media libraries, fast scrolling and selection, direct OS drag/drop/clipboard integration, and low-latency interoperability with ClipTown.
 
 ## Parallel Rust and Flutter development
 
-The Rust and Flutter applications are first-class side-by-side implementations. They are developed with the same product features to compare native image/rendering performance, local integration, accessibility, Flutter mobile reuse, developer velocity, packaging, security, and long-term maintenance.
+The Rust and Flutter applications are first-class side-by-side implementations. They need not remain feature-for-feature identical, but every change involving imports, search, auth, API models, clipboard metadata, sharing, deep links, offline state, storage providers, or background processing must review both repositories. A one-sided change requires an explicit rationale, test evidence, and compatibility or rollback path.
 
-Every desktop-facing feature must inspect both repositories, share acceptance criteria and privacy-safe fixtures, and normally update both. A one-sided change requires an explicit no-change rationale and parity gap. The future `mbk-desktop.rs` README, `AGENTS.md`, pull-request template, and `docs/DESKTOP_TOOLKIT.md` must state this rule prominently.
+Shared data shapes are owned by `memebank/mb-interfaces`; transport behavior is owned by `memebank/mb-clients`; cross-application fixtures belong in `memebank/memebank-e2e`. Neither UI repository is the canonical schema owner.
 
-## HTTPS-first deep links
+## Deep links
 
-Canonical route family:
-
-```text
-https://<verified-memebank-owned-host>/open/<route>?<bounded-query>
-```
-
-Fallback scheme:
+Canonical custom-scheme routes:
 
 ```text
-memebank://<route>?<bounded-query>
+memebank://library
+memebank://search?q=<bounded-query>
+memebank://asset/<asset-id>
+memebank://import?uri=<absolute-uri>
 ```
 
-Rust and Flutter must consume the same versioned route types and fixtures from the MemeBank interfaces package.
+Allowlisted HTTPS app links may use the same route grammar under `/app`. The historical `memebank://assets/<asset-id>` route is accepted during migration, but new payloads emit the singular `asset` form.
 
-Initial route families may include libraries, collections, media items, searches, import reviews, shares, storage connectors, Cliptown handoffs, and authenticated notifications.
+Required behavior includes cold-start and already-running delivery, exact host/route validation, bounded identifiers and queries, authenticated resume, replay/expiry checks, and explicit confirmation before import, reveal, export, deletion, connector changes, or external-file access.
 
-Required behavior:
+Private media, OCR text, embeddings, storage credentials, encryption keys, bearer tokens, local absolute paths, and personal metadata are prohibited in URLs. Use short-lived, single-use, audience-bound codes for shares, imports, authentication, and ClipTown handoffs.
 
-- cold-start and already-running/single-instance delivery;
-- exact host, route/version, library/item/collection identifiers, action, and bounded-query validation;
-- authenticated resume and browser fallback;
-- replay, expiry, ownership, storage-provider, and unsafe-return validation;
-- explicit confirmation before import, reveal, export, deletion, connector changes, or external-file access; and
-- macOS, Windows, Linux, Android, and iOS tests.
-
-Private media, image bytes, OCR text, embeddings, storage credentials, encryption keys, bearer tokens, local absolute paths, or personal metadata are prohibited in URLs. Use short-lived, single-use, audience-bound codes for shares, imports, authentication, and Cliptown handoffs.
-
-## Native MemeBank–Cliptown interoperability
-
-MemeBank and Cliptown must share a versioned local image-transfer contract across all four Rust/Flutter applications.
+## Native MemeBank–ClipTown interoperability
 
 - Prefer OS drag/drop, clipboard provider formats, shared file references, and authenticated local manifests rather than encoding media in URLs.
 - Deep links may contain only bounded identifiers or one-time handoff codes.
@@ -68,23 +79,12 @@ MemeBank and Cliptown must share a versioned local image-transfer contract acros
 - Use privacy-safe golden images and round-trip/failure fixtures across `mbk-desktop.rs`, `mbk-flutter`, `cliptown-desktop.rs`, and `cliptown-flutter`.
 - Preserve original files by default; destructive transfer requires explicit confirmation and durable audit evidence.
 
-## Product boundary
-
-Both MemeBank implementations should converge on:
-
-- drag/drop and bulk import;
-- high-performance native image grids and previews;
-- local/offline indexing, OCR/vision queues, embeddings, tags, and search;
-- storage-provider connectors, encryption boundaries, duplicate detection, export/share flows, and Cliptown interop;
-- caching, memory budgets, background jobs, progress/recovery, notifications, and deep links;
-- schemas, generated clients, route fixtures, privacy-safe sample media, metadata formats, and conformance tests.
-
 ## Project routing
 
 - GitHub Project: [`memebank-project` — Project 1](https://github.com/orgs/memebank/projects/1)
 - Linear project: `memebank`
-- Central registry: [`desktop-applications.json`](https://github.com/ORESoftware/project-registry/blob/main/registry/desktop-applications.json)
-- Toolkit strategy: [`rust-desktop-strategies.md`](https://github.com/ORESoftware/project-registry/blob/main/docs/rust-desktop-strategies.md)
-- Portfolio rollout: [`DEN-2469`](https://linear.app/denman/issue/DEN-2469/roll-out-paired-rust-flutter-desktop-repositories-across-the-portfolio)
+- Fleet recovery: `DEN-1043`
+- Desktop rollout: `DEN-2469`
+- Canonical fleet evidence: [`.github#26`](https://github.com/memebank/.github/issues/26)
 
-Repository creation, toolkit changes, deep-link or Cliptown-interop changes, renames, transfers, archival, or platform-status changes must update this document, Linear, the central registry/strategy, and both companion repositories together.
+Repository creation, toolkit changes, deep-link or ClipTown-interop changes, renames, transfers, archival, and platform-status changes must update this document, Linear, the monorepo pins, and both companion repositories together.
