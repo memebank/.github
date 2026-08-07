@@ -1,0 +1,28 @@
+{
+  "approved_source_head": "389f9ac5ecc056dab7e3b6b426568ccefe1a6876",
+  "approved_source_tree": "6f885dadcfcd4192c7c10e64beccd91ea695bbd7",
+  "canonical_visibility": "public-profile-exception",
+  "github_project": {
+    "number": 1,
+    "title": "memebank-project",
+    "url": "https://github.com/orgs/memebank/projects/1"
+  },
+  "organization": "memebank",
+  "publication_run_id": "31137882640-1",
+  "published_at": "2026-08-07T01:32:11.044669+00:00",
+  "repository": ".github",
+  "repository_id": 1324048444,
+  "role": "Organization profile, shared policies, and reusable GitHub configuration",
+  "schema_version": 1,
+  "source_archive_sha256": "b451cce7de72ce67ad7dd135db794d54f34ff6b83c2d5bf8a7c0baf6df91b167",
+  "source_manifest": "ORESoftware/ai-agent-coordinator.rs:repository-fleets/memebank-source-v2.json",
+  "tracked_entries": 17,
+  "tracking_issues": [
+    "DEN-1004",
+    "DEN-1005",
+    "DEN-1043",
+    "DEN-319",
+    "DEN-1011",
+    "DEN-1018"
+  ]
+}
