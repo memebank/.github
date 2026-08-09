@@ -1,81 +1,63 @@
 # MemeBank repository fleet
 
-**Observed:** August 5, 2026  
-**Tracking:** DEN-1004, DEN-1005, DEN-1043, DEN-319  
+**Verified:** August 7, 2026  
+**Tracking:** DEN-1004, DEN-1005, DEN-1043, DEN-319, DEN-1011, DEN-1018, DEN-2469  
 **GitHub Project:** [memebank-project](https://github.com/orgs/memebank/projects/1)  
 **Linear:** [MemeBank](https://linear.app/denman/project/memebank-3db5f5cc7452)
 
-This document distinguishes repositories that exist in GitHub from the reviewed canonical targets. A plan, source carrier, local archive, or coordinator commit is not remote-publication evidence.
+Repository recovery and first publication are complete. The authoritative canonical completion record is [`.github#26`](https://github.com/memebank/.github/issues/26). This document records the current canonical fleet and distinguishes it from legacy repositories, unused naming placeholders, and the later user-requested unrelated-history `-2` archives.
 
-## Live inventory
+## Canonical fleet
 
-The organization currently contains these repositories:
-
-| Repository | Visibility | Default branch | Disposition |
+| Repository | Visibility | State | Verified revision or disposition |
 |---|---|---|---|
-| `.github` | public | `main` | canonical organization governance |
-| `mbk-api` | private | `master` | preserve while TypeScript API responsibilities migrate |
-| `mbk-ocr-api` | private | `master` | preserve as legacy OCR/analysis service and migration proving ground |
-| `mbk-pwa` | private | `master` | preserve while client surfaces migrate |
-| `mbk-rest-api` | private | `master` | preserve while canonical Rust API composition lands |
-| `mbk-scripts` | private | `master` | inventory and classify automation before consolidation |
-| `memebanc-blog` | private | `master` | preserve history; replace only through an explicit migration |
-| `stop-billing` | private | `master` | preserve until billing-control ownership is explicitly reassigned |
+| `.github` | public | live | organization governance; reconciled additively |
+| `mb-interfaces` | private | live | source-v2 head `c860e0ac8281a10952d31e7274813e8bfc0af781` |
+| `mb-clients` | private | live | source-v2 head `ee81a0eedba4c44a2819023d0bb7d1311599fba2` |
+| `mb-cli` | private | live | source-v2 head `3455f25e96a8cfc65958b5048f8b03074c67fb58` |
+| `memebank-api-server.rs` | private | live | source-v2 head `fe28c76f2ae634fea8216eb8992bd6cfabdc13cb` |
+| `memebank-web-server.rs` | private | live | source-v2 head `d355504bf49551ee6f4360a96d0200c4e581c3e9` |
+| `memebank-media-worker.rs` | private | live | source-v2 head `7b228d6e1c0edffb15580fec4bba98bcd7fa6df5` |
+| `mbk-flutter` | private | live | renamed from `memebank-flutter` with repository ID and Git history preserved; current verified tree `6beb20cdb65790d4e2890a05b777cc0a9de1efa9` |
+| `mbk-desktop.rs` | private | live | substantive native Rust/GPUI source; verified commit `c7e5b9010bb984b6443ae00e5a4a162fc62b4cc5` |
+| `mb-infra` | private | live | source-v2 head `95869b2b0709e1b514192aeea6ffc1b70993a224`; `memebank-infra` remains forbidden |
+| `memebank.github.io` | private | live | reviewed site source `b693ba989b775b4ea280e75c86a809479d073b80`; visibility remains a separate Pages decision |
+| `memebank-mcp-server.rs` | private | live | source-v2 head `192fa6765991c18f061f2d2d67aff6cf3de952f9` |
+| `memebank-e2e` | private | live | recovered source attached as audited ancestry while preserving the newer reconciled product tree |
+| `memebank-monorepo` | private | live | published last; exact child revisions are pinned and validated |
 
-The misspelled `memebanc-blog` name is recorded as observed history. It is not silently renamed or deleted.
+The final source-v2 publication run reported **13 repositories current, zero failures, and 28 publisher/carrier tests passed**. The desktop extension adds the fourteenth canonical repository, `mbk-desktop.rs`.
 
-## Canonical targets
+## Canonical collision policy and later archive publication
 
-The reviewed source-v2 fleet contains thirteen repositories:
+The canonical recovery itself did not require a `-2` name: every canonical destination was empty, created by the recovery publisher, or demonstrably contained the same product source with newer reviewed additions. No nonempty canonical repository was force-pushed.
 
-1. `.github`
-2. `mb-interfaces`
-3. `mb-clients`
-4. `mb-cli`
-5. `memebank-api-server.rs`
-6. `memebank-web-server.rs`
-7. `memebank-media-worker.rs`
-8. `memebank-flutter`
-9. `mb-infra`
-10. `memebank.github.io`
-11. `memebank-mcp-server.rs`
-12. `memebank-e2e`
-13. `memebank-monorepo`
+After canonical completion, the user explicitly requested that the separately created unrelated-history collision repositories also receive complete source publication. Those repositories now exist as **archives**, not alternative canonical development targets. Their exact source identities, pull requests, and merge commits are recorded in [`COLLISION_ARCHIVES_2026-08-07.md`](COLLISION_ARCHIVES_2026-08-07.md).
 
-`.github` is intentionally public so GitHub can render the organization profile. The other canonical targets default to private. `mb-infra` is the sole canonical infrastructure repository; `memebank-infra` is forbidden.
+For all future recovery work:
 
-## Publication order and invariants
+- use the canonical name when the destination is empty, missing, or demonstrably shares the recovered lineage;
+- preserve and semantically reconcile newer work when both histories represent the same product;
+- when an occupied name is an unrelated project with no shared lineage, create `<name>-2`, publish the complete source rather than a metadata-only placeholder, and record the mapping in this document, Linear, and the recovery ledger;
+- keep `-2` repositories outside canonical monorepo pins unless a later explicit migration changes authority;
+- never resolve a conflict by blindly taking all of `ours` or all of `theirs`; and
+- never force-push a nonempty canonical remote merely to reproduce an archived commit SHA.
 
-Publish contract and leaf repositories before orchestration:
+## Noncanonical placeholders, archives, and legacy repositories
 
-1. governance and interfaces;
-2. clients and CLI;
-3. API, web, media-worker, Flutter, infrastructure, marketing, MCP, and E2E repositories;
-4. `memebank-monorepo` last, after every child commit is reachable.
+The repositories `mbk-cli`, `mbk-interfaces`, `mbk-clients`, and `mbk-lib` are not substitutes for the canonical `mb-cli`, `mb-interfaces`, and `mb-clients` repositories. They remain separate until a reviewed naming, migration, or archival decision.
 
-Each new repository requires:
+The published `-2` repositories preserve unrelated/recovery histories and complete source snapshots. They are not canonical package, deployment, or feature-development targets. Normal product work remains in the canonical fleet above.
 
-- exact organization and repository identity;
-- intended visibility and `main` default branch;
-- a reviewed baseline branch and pull request rather than an undocumented final push;
-- required CI, CODEOWNERS, branch/ruleset, workflow-permission, secret, Dependabot, and security settings;
-- first remote commit, baseline PR, merge SHA, checks, and repository ID recorded in Linear and the GitHub Project;
-- no overwrite of a nonempty remote unless a separately reviewed migration proves ancestry and desired state.
+Legacy repositories such as `mbk-api`, `mbk-rest-api`, `mbk-ocr-api`, `mbk-pwa`, `mbk-scripts`, `memebanc-blog`, and `stop-billing` retain their history while behavior is migrated deliberately. Existing security and compatibility fixes may continue there until the corresponding cutover is complete.
 
-The monorepo must pin exact child commits. It must not import infrastructure or CLI merely for convenience when the approved topology excludes them, and it must not hide duplicate source copies behind Git submodules.
+## Publication invariants
 
-## Legacy migration policy
+- Contract and leaf repositories are published before orchestration repositories.
+- `memebank-monorepo` is published last and pins reachable canonical child commits.
+- `.github` is the public organization-governance exception; product repositories default to private unless a reviewed visibility decision says otherwise.
+- Repository remotes, publication logs, pull requests, and ledgers contain no PATs, Linear tokens, signing keys, or other credentials.
+- Archive publication preserves provenance but does not imply production readiness, package signing, supported-platform qualification, or deployment activation.
+- CI, governance, packaging, signing, production activation, migrations, provider qualification, accessibility, performance, observability, and failure drills remain independently tracked product-delivery work.
 
-Existing repositories continue to receive security and compatibility fixes. Migration to canonical targets is incremental:
-
-- preserve useful behavior, tests, migrations, documentation, and audit history;
-- extract versioned contracts before implementation replacement;
-- run old and new paths in conformance or shadow mode where practical;
-- document data, deployment, and ownership cutovers;
-- archive or deprecate only after replacement evidence and rollback are complete.
-
-A semantic merge reconstructs the intent of both branches. It does not resolve conflicts by selecting all of `ours`, all of `theirs`, current, or incoming.
-
-## Completion evidence
-
-DEN-1005 is complete only when all thirteen targets have verified remote identities and the intended baseline commits. DEN-1043 additionally requires organization and repository governance to be applied and tested. DEN-319 requires the approved short-lived publishing identity and audit trail. The presence of `.github` and the legacy repositories does not satisfy those acceptance criteria.
+See [`RECOVERY_2026-08-07.md`](RECOVERY_2026-08-07.md) for source-carrier provenance and [`COLLISION_ARCHIVES_2026-08-07.md`](COLLISION_ARCHIVES_2026-08-07.md) for the post-completion archive publication.

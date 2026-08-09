@@ -13,7 +13,7 @@ MemeBank is a privacy-aware image and meme library for durable storage, source s
 
 ## Repository delivery
 
-The organization currently contains the public `.github` profile and seven private legacy repositories. The reviewed canonical target is a thirteen-repository fleet led by `mb-interfaces`, `mb-clients`, the Rust API/web/media services, Flutter, `mb-infra`, E2E conformance, and a pinned monorepo.
+Private repository details are intentionally withheld from this public document.
 
 - [Observed and canonical repository fleet](../docs/REPOSITORY_FLEET.md)
 - [OCR and vision delivery contract](../docs/VISION_OCR_DELIVERY.md)
@@ -31,9 +31,24 @@ GitHub owns code and delivery evidence; Linear owns planning and dependencies. T
 <!-- org-project-routing:end -->
 
 <!-- ore-org-baseline:begin -->
-This GitHub account maintains software, infrastructure, research, and supporting documentation under the [`memebank`](https://github.com/memebank) GitHub owner.
+## Planning and governance
 
-Planning and delivery context is tracked in [memebank](https://linear.app/denman/project/memebank-3db5f5cc7452). Public contribution, security, and governance defaults are maintained in [`.github`](https://github.com/memebank/.github).
+- Canonical Linear project: https://linear.app/denman/project/memebank-3db5f5cc7452
+- Organization defaults: https://github.com/memebank/.github
+- Canonical agent policy: https://github.com/memebank/.github/blob/main/agents.md
+- Security policy: https://github.com/memebank/.github/security/policy
 
-Repository descriptions and repository-local documentation remain authoritative for each project. Do not infer production readiness, support commitments, or security guarantees from this profile alone.
+Repositories in this organization use semantic conflict resolution with 3–10 relevant prior commits when useful, full cross-repository context, pull-request delivery, and a hard automated-agent denylist for destructive or history-rewriting operations.
 <!-- ore-org-baseline:end -->
+
+<!-- BEGIN MANAGED REPOSITORY RELATIONSHIPS v1 -->
+## Repository relationship registry
+
+`memebank` declares repository roles, dependency edges, cross-organization capabilities, deployment ownership, and the git-submodule/Zed-package contract:
+
+- [Human-readable map](architecture/REPOSITORY_RELATIONSHIPS.md)
+- [Machine-readable manifest](architecture/repository-relationships.json)
+- [JSON Schema](architecture/repository-relationships.schema.json)
+
+The public registry withholds private repository names and edges.
+<!-- END MANAGED REPOSITORY RELATIONSHIPS v1 -->
